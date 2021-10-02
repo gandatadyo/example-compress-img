@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    
+    <% for (let i=0; i < dataset.length; i++) { %>
+        <div>
+            name : <%= dataset[i].name %> <br /> size : <%= dataset[i].size %> <br/>
+            <button onclick="compressData('<%= dataset[i].name %>')">Compress</button>
+        </div>
+        <hr />
+        <% } %>
+
+            <script>
+                function compressData(namefile) {
+                    const data = { namefile: namefile };
+
+                    fetch('/compress', {
+                        method: 'POST', // or 'PUT'
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(data),
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            window.alert(data.message)
+                            console.log('Success:', data);
+                        })
+                        .catch((error) => {
+                            window.alert(error)
+                            console.error('Error:', error);
+                        });
+                }
+            </script>
+</body>
+
+</html>
